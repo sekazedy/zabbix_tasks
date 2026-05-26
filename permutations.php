@@ -40,10 +40,10 @@ function getValidInputData(mixed $handle): array
     return [$elementsCount, $inversionsCount];
 }
 
-function isValidInput(int $permutationsCount, int $inversionsCount): bool
+function isValidInput(int $elementsCount, int $inversionsCount): bool
 {
-    if ($permutationsCount < 1 || $permutationsCount > 12) {
-        echo 'Incorrect permutations count: it must be in range from 1 to 12, inclusive' . PHP_EOL;
+    if ($elementsCount < 1 || $elementsCount > 12) {
+        echo 'Incorrect elements count: it must be in range from 1 to 12, inclusive' . PHP_EOL;
         return false;
     }
 
@@ -55,16 +55,22 @@ function isValidInput(int $permutationsCount, int $inversionsCount): bool
     return true;
 }
 
-function permutationsWithInversionsCount(int $n, int $k): int
+function permutationsWithInversionsCount(int $n, int $k, array &$cache = []): int
 {
     if ($k === 0) {
         return 1;
     }
 
+    if (isset($cache[$n][$k])) {
+        return $cache[$n][$k];
+    }
+
     $result = 0;
     for ($i = 0; $i <= min($k, $n-1); $i++) {
-        $result += permutationsWithInversionsCount($n - 1, $k - $i);
+        $result += permutationsWithInversionsCount($n - 1, $k - $i, $cache);
     }
+
+    $cache[$n][$k] = $result;
 
     return $result;
 }
