@@ -74,7 +74,7 @@ function getSortedAvailableStalls(int $stallCount, mixed $handle): array
 	$availableStalls = [];
 	while ($stallCount-- > 0) {
 		echo 'Enter stall position: ';
-		$availableStalls[] = fgets($handle);
+		$availableStalls[] = (int) fgets($handle);
 	}
 	
 	sort($availableStalls);
